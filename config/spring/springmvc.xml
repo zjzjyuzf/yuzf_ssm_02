@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+        http://www.springframework.org/schema/task 
+        http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+        
+
+	<!-- controller 扫描器 -->
+	<context:component-scan base-package="com.yuzf.ssm.controller" />
+
+	<!-- mapping映射器 以及 handler适配器 采用注解驱动 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 自定义参数绑定 -->
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 转化器 -->
+		<property name="converters">
+			<list>
+				<!-- 日期转化类 -->			
+				<bean class="com.yuzf.ssm.controller.converter.SimpleDateConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 页面前缀 -->
+		<property name="prefix" value="/jsp/" />		
+		<!-- 页面后缀 -->	
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<import resource="classpath:spring/applicationContext-*.xml"/>
+
+</beans>
